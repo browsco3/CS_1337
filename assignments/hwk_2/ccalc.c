@@ -1,35 +1,107 @@
 #include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
 
-/* This is a calculator program for CS 1337 with Dr. Bodily 
-   Scott Brown 8/30/22
-*/
+int main() {
 
-int main(){
-    char op;
+	bool is_valid = false;
+	char oper, equation[100], sprintf_buff[10];
+	int number_of_integers, result, integers[100];
+	double div_result;
 
-    printf("Enter the operation you would like to perform (+ - / *)(q to quit):");
-    scanf("%c", &op);
+	// Loop until a valid option is entered.
+	while(is_valid == false) {
 
-    if(op == '+') {
-	printf("Plus\n");
-    }
-    else if(op == '-') {
-	printf("Minus\n");
-    }
-    else if(op == '/') {
-	printf("Divide\n");
-    }
-    else if(op == '*') {
-	printf("Multiply\n");
-    }
-    else if((op == 'q') || (op == 'Q')) {
-	printf("Goodbye!\n");
-	return 0;
-    }
-    else {
-	printf("Invalid option! Please enter a valid option.\n");
+		printf("Enter operation: ");
+		scanf("%c", &oper);
+
+		if((oper == '+') || (oper == '-') || (oper == '/') || (oper == '*') || (oper == 'q')) {
+			is_valid = true;
+			if(oper == 'q') {
+				return 0;
+			}
+		}
+		else {
+			printf("Please enter a valid operation\n");
+			while (getchar() != '\n');
+		}
+	}
+
+	is_valid = false;
+	while(is_valid == false) {
+		printf("Enter number of integers: ");
+		scanf("%d", &number_of_integers);
+
+		if(number_of_integers <= 1) {
+			printf("Please enter a valid integer greater than one\n");
+			while(getchar() != '\n');
+		}
+		else {
+			is_valid = true;
+		}
+
+	}
+
+	for(int index = 0; index < number_of_integers; index++) {
+		is_valid = false;
+		while(is_valid == false) {
+			printf("Enter integer %d: ", index + 1);
+			scanf("%d", &integers[index]);
+			/*if(0 > integers[index] < 1000 ) {
+				printf("Please enter an integer\n");
+				while(getchar() != '\n');
+			}
+			else {
+				is_valid = true;
+			}*/
+			is_valid = true;
+		}
+	}
+	// Now I solve and print the equation.
+	printf("\nComputing: ");
+	for(int index = 0; index < number_of_integers; index++) {
+		printf("%d ", integers[index]);
+		if(index == 0) { 
+			if(oper == '/') {
+				div_result = integers[index];
+			}
+			else {
+				result = integers[index];
+			}
+		}
+		else{
+			switch(oper) {
+				case 43: //Plus
+					result = result + integers[index];
+					break;
+				case 45: //Minus
+					result = result - integers[index];
+					break;
+				case 47: //Divide
+					div_result = div_result / integers[index];
+					break;
+				case 42: //Multiply
+					result = result * integers[index];
+					break;
+				default:
+					break;
+			}
+		}
+		if(index < (number_of_integers - 1)) {
+			printf("%c ", oper);
+		}
+		else {
+			if(oper == '/') {
+				printf("= %f\n\n", div_result);
+			}
+			else {
+				printf("= %d\n\n", result);
+			}
+		}
+	}
+	// Clear the stdin buffer.
+	while(getchar() != '\n');
+
+	// Call main again.
 	main();
-    }
-    return 0;
 }
-
