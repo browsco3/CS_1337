@@ -1,3 +1,8 @@
+/*
+*	Lab 2 - C calculator
+*	Scott Brown
+*	Fall 2022 CS1337 with Dr. Paul Bodily
+*/
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
@@ -27,6 +32,7 @@ int main() {
 		}
 	}
 
+	// Gets the number of integers to be used and validates the number.
 	is_valid = false;
 	while(is_valid == false) {
 		printf("Enter number of integers: ");
@@ -42,18 +48,12 @@ int main() {
 
 	}
 
+	// Gets the integers to be used.
 	for(int index = 0; index < number_of_integers; index++) {
 		is_valid = false;
 		while(is_valid == false) {
 			printf("Enter integer %d: ", index + 1);
 			scanf("%d", &integers[index]);
-			/*if(0 > integers[index] < 1000 ) {
-				printf("Please enter an integer\n");
-				while(getchar() != '\n');
-			}
-			else {
-				is_valid = true;
-			}*/
 			is_valid = true;
 		}
 	}
@@ -61,7 +61,7 @@ int main() {
 	printf("\nComputing: ");
 	for(int index = 0; index < number_of_integers; index++) {
 		printf("%d ", integers[index]);
-		if(index == 0) { 
+		if(index == 0) {
 			if(oper == '/') {
 				div_result = integers[index];
 			}
