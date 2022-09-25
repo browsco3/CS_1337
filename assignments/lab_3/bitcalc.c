@@ -5,6 +5,7 @@
 */
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 
@@ -14,11 +15,16 @@
 	}
 }*/
 
+int int_to_bin(int input) {
+	int output;
+	
+}
+
 int main() {
 
 	bool is_valid = false;
-	char oper, holder, equation[100], sprintf_buff[10], hex_integers[10][8], curr_char;
-	int number_of_integers, result, current_integer, integers[100];
+	char oper, holder, equation[100], sprintf_buff[10], hex_integers[10][10], curr_char, integers[100];
+	int number_of_integers, result, current_integer;
 	double div_result;
 
 	// Loop until a valid option is entered.
@@ -62,46 +68,30 @@ int main() {
 		is_valid = false;
 		while(is_valid == false) {
 			printf("Enter integer %d: ", (index + 1));
-			while(curr_char != '\n') {
-				curr_char = getchar();
-				if(curr_char != '\n') {
-					hex_integers[index][char_ind] = curr_char;
-				}
-				char_ind++;
-			}
-			//is_valid = check_valid_hex(hex_integers[index]);
+			scanf("%s", hex_integers[index]);
+			while(getchar() != '\n');
 			is_valid = true;
 		}
 	}
 
+	// Print the hex representation.
 	printf("\nHexadecimal operation:\n");
 	for(int index = 0; index < number_of_integers; index++) {
 		if(index == 0) {
-			printf("\t  %s\n", hex_integers[index]);
+			printf("\t  %08X\n", ((int) strtol(hex_integers[index], NULL, 16)));
+			result = ((int) strtol(hex_integers[index], NULL, 16));
 		}
 		else {
-			printf("\t%c %s\n",oper, hex_integers[index]);
-		}
-	}
-	/*
-	// Now I solve and print the equation.
-	printf("\nHexadecimal operation:\n");
-	for(int index = 0; index < number_of_integers; index++) {
-		printf("index = %d", index);
-		printf("\t%s\n", hex_integers[index]);
-		if(index ==0) {
-			result = (int) hex_integers[index];
-		}
-		else {
+			printf("%08X\n", ((int) strtol(hex_integers[index], NULL, 16)));
 			switch(oper) {
 				case 124: //or
-					result = result | (int) &hex_integers[index];
+					result = result | ((int) strtol(hex_integers[index], NULL, 16));
 					break;
 				case 38: //and
-					result = result & (int) &hex_integers[index];
+					result = result & ((int) strtol(hex_integers[index], NULL, 16));
 					break;
 				case 94: //xor
-					result = result ^ (int) &hex_integers[index];
+					result = result ^ ((int) strtol(hex_integers[index], NULL, 16));
 					break;
 				default:
 					break;
@@ -109,14 +99,26 @@ int main() {
 		}
 		// Print the operator as long as there is another integer.
 		if(index < (number_of_integers - 1)) {
-			printf("%c ", oper);
+			printf("\t%c ", oper);
 		}
 		// Print the results if this is the last integer.
 		else {
-			printf("= %d\n\n", result);
+			printf("\t= %08X\n\n", result);
 		}
 	}
-	*/
+	//Print the binary representation
+	printf("Binary operation:\n");
+	for(int index = 0; index < number_of_integers; index++) {
+		printf("\t");
+		int padding = (8 - strlen(hex_integers[index]));
+		for(int pad = 0; pad < padding; pad++) {
+			printf("0000");
+			if((pad > 0) && !(pad % 2 == 0)) {printf(" ");}
+		}
+		
+		printf("\n");
+
+	}
 	// Call main again.
 	main();
 }
