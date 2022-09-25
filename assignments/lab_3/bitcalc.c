@@ -8,10 +8,16 @@
 #include <string.h>
 #include <ctype.h>
 
+/*bool check_valid_hex(char[] hex_to_check) {
+	for() {
+
+	}
+}*/
+
 int main() {
 
 	bool is_valid = false;
-	char oper, holder, equation[100], sprintf_buff[10];
+	char oper, holder, equation[100], sprintf_buff[10], hex_integers[10][8], curr_char;
 	int number_of_integers, result, current_integer, integers[100];
 	double div_result;
 
@@ -51,46 +57,51 @@ int main() {
 
 	// Gets the integers to be used.
 	for(int index = 0; index < number_of_integers; index++) {
+		int char_ind = 0;
+		curr_char = '\0';
 		is_valid = false;
 		while(is_valid == false) {
-			printf("Enter integer %d: ", index + 1);
-			scanf("%c", &holder);
-			if((((int)holder - '0') >= 1) && (((int)holder - '0') <= 9)) {
-				integers[index] = ((int)holder - '0');
-				is_valid = true;
+			printf("Enter integer %d: ", (index + 1));
+			while(curr_char != '\n') {
+				curr_char = getchar();
+				if(curr_char != '\n') {
+					hex_integers[index][char_ind] = curr_char;
+				}
+				char_ind++;
 			}
-			else {
-				printf("Please enter an integer");
-			}
-			while(getchar() != '\n');
+			//is_valid = check_valid_hex(hex_integers[index]);
+			is_valid = true;
 		}
 	}
-	// Now I solve and print the equation.
-	printf("\nComputing: ");
+
+	printf("\nHexadecimal operation:\n");
 	for(int index = 0; index < number_of_integers; index++) {
-		printf("%d ", integers[index]);
 		if(index == 0) {
-			// change the result to handle floats if division is used.
-			if(oper == '/') {
-				div_result = integers[index];
-			}
-			else {
-				result = integers[index];
-			}
+			printf("\t  %s\n", hex_integers[index]);
 		}
-		else{
+		else {
+			printf("\t%c %s\n",oper, hex_integers[index]);
+		}
+	}
+	/*
+	// Now I solve and print the equation.
+	printf("\nHexadecimal operation:\n");
+	for(int index = 0; index < number_of_integers; index++) {
+		printf("index = %d", index);
+		printf("\t%s\n", hex_integers[index]);
+		if(index ==0) {
+			result = (int) hex_integers[index];
+		}
+		else {
 			switch(oper) {
-				case 43: //Plus
-					result = result + integers[index];
+				case 124: //or
+					result = result | (int) &hex_integers[index];
 					break;
-				case 45: //Minus
-					result = result - integers[index];
+				case 38: //and
+					result = result & (int) &hex_integers[index];
 					break;
-				case 47: //Divide
-					div_result = div_result / integers[index];
-					break;
-				case 42: //Multiply
-					result = result * integers[index];
+				case 94: //xor
+					result = result ^ (int) &hex_integers[index];
 					break;
 				default:
 					break;
@@ -102,15 +113,10 @@ int main() {
 		}
 		// Print the results if this is the last integer.
 		else {
-			if(oper == '/') {
-				printf("= %f\n\n", div_result);
-			}
-			else {
-				printf("= %d\n\n", result);
-			}
+			printf("= %d\n\n", result);
 		}
 	}
-
+	*/
 	// Call main again.
 	main();
 }
